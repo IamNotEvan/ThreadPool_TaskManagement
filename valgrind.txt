@@ -1,0 +1,194 @@
+==2621407== Helgrind, a thread error detector
+==2621407== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==2621407== Using Valgrind-3.19.0 and LibVEX; rerun with -h for copyright info
+==2621407== Command: ./threadpool_test4 -n 4
+==2621407== Parent PID: 2448342
+==2621407== 
+==2621407== ---Thread-Announcement------------------------------------------
+==2621407== 
+==2621407== Thread #1 is the program's root thread
+==2621407== 
+==2621407== ---Thread-Announcement------------------------------------------
+==2621407== 
+==2621407== Thread #2 was created
+==2621407==    at 0x5DCAE62: clone (clone.S:71)
+==2621407==    by 0x5B7808E: create_thread (createthread.c:101)
+==2621407==    by 0x5B79A4A: pthread_create@@GLIBC_2.2.5 (pthread_create.c:819)
+==2621407==    by 0x4C42CFA: pthread_create_WRK (hg_intercepts.c:445)
+==2621407==    by 0x4C44209: pthread_create@* (hg_intercepts.c:478)
+==2621407==    by 0x401C77: thread_pool_new (threadpool.c:122)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407==  Lock at 0x6EA2F28 was first observed
+==2621407==    at 0x4C44568: pthread_mutex_init (hg_intercepts.c:818)
+==2621407==    by 0x401AC6: thread_pool_new (threadpool.c:113)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Address 0x6ea2f28 is 136 bytes inside a block of size 216 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x4017D4: thread_pool_new (threadpool.c:103)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== Possible data race during read of size 4 at 0x6EA4050 by thread #1
+==2621407== Locks held: none
+==2621407==    at 0x402481: future_get (threadpool.c:195)
+==2621407==    by 0x401556: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== This conflicts with a previous write of size 4 by thread #2
+==2621407== Locks held: 1, at address 0x6EA2F28
+==2621407==    at 0x403264: worker_function (threadpool.c:257)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407==  Address 0x6ea4050 is 144 bytes inside a block of size 152 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x401FD0: thread_pool_submit (threadpool.c:172)
+==2621407==    by 0x40152B: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407== Thread #1: pthread_cond_{timed}wait called with un-held mutex
+==2621407==    at 0x4C42F93: pthread_cond_wait_WRK (hg_intercepts.c:1275)
+==2621407==    by 0x4C44644: pthread_cond_wait@* (hg_intercepts.c:1316)
+==2621407==    by 0x40254C: future_get (threadpool.c:197)
+==2621407==    by 0x401556: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407==  Lock at 0x6EA2F28 was first observed
+==2621407==    at 0x4C44568: pthread_mutex_init (hg_intercepts.c:818)
+==2621407==    by 0x401AC6: thread_pool_new (threadpool.c:113)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Address 0x6ea2f28 is 136 bytes inside a block of size 216 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x4017D4: thread_pool_new (threadpool.c:103)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== Possible data race during write of size 4 at 0x6EA4050 by thread #2
+==2621407== Locks held: 1, at address 0x6EA2F28
+==2621407==    at 0x403527: worker_function (threadpool.c:263)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407== 
+==2621407== This conflicts with a previous read of size 4 by thread #1
+==2621407== Locks held: none
+==2621407==    at 0x402481: future_get (threadpool.c:195)
+==2621407==    by 0x401556: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Address 0x6ea4050 is 144 bytes inside a block of size 152 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x401FD0: thread_pool_submit (threadpool.c:172)
+==2621407==    by 0x40152B: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407== Thread #2: pthread_cond_{signal,broadcast}: dubious: associated lock is not held by any thread
+==2621407==    at 0x4C4060B: pthread_cond_signal_WRK (hg_intercepts.c:1565)
+==2621407==    by 0x4C4467C: pthread_cond_signal@* (hg_intercepts.c:1586)
+==2621407==    by 0x403591: worker_function (threadpool.c:264)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407==  Lock at 0x6EA2F28 was first observed
+==2621407==    at 0x4C44568: pthread_mutex_init (hg_intercepts.c:818)
+==2621407==    by 0x401AC6: thread_pool_new (threadpool.c:113)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Address 0x6ea2f28 is 136 bytes inside a block of size 216 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x4017D4: thread_pool_new (threadpool.c:103)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== Possible data race during read of size 8 at 0x6EA3FE8 by thread #1
+==2621407== Locks held: none
+==2621407==    at 0x402B47: future_get (threadpool.c:222)
+==2621407==    by 0x401556: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== This conflicts with a previous write of size 8 by thread #2
+==2621407== Locks held: 1, at address 0x6EA2F28
+==2621407==    at 0x4034D8: worker_function (threadpool.c:262)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407==  Address 0x6ea3fe8 is 40 bytes inside a block of size 152 alloc'd
+==2621407==    at 0x4C3A115: malloc (vg_replace_malloc.c:381)
+==2621407==    by 0x401FD0: thread_pool_submit (threadpool.c:172)
+==2621407==    by 0x40152B: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407==  Block was alloc'd by thread #1
+==2621407== 
+==2621407== ---Thread-Announcement------------------------------------------
+==2621407== 
+==2621407== Thread #3 was created
+==2621407==    at 0x5DCAE62: clone (clone.S:71)
+==2621407==    by 0x5B7808E: create_thread (createthread.c:101)
+==2621407==    by 0x5B79A4A: pthread_create@@GLIBC_2.2.5 (pthread_create.c:819)
+==2621407==    by 0x4C42CFA: pthread_create_WRK (hg_intercepts.c:445)
+==2621407==    by 0x4C44209: pthread_create@* (hg_intercepts.c:478)
+==2621407==    by 0x401C77: thread_pool_new (threadpool.c:122)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407== Thread #3: pthread_cond_{signal,broadcast}: dubious: associated lock is not held by any thread
+==2621407==    at 0x4C4060B: pthread_cond_signal_WRK (hg_intercepts.c:1565)
+==2621407==    by 0x4C4467C: pthread_cond_signal@* (hg_intercepts.c:1586)
+==2621407==    by 0x403591: worker_function (threadpool.c:264)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407== 
+==2621407== ---Thread-Announcement------------------------------------------
+==2621407== 
+==2621407== Thread #4 was created
+==2621407==    at 0x5DCAE62: clone (clone.S:71)
+==2621407==    by 0x5B7808E: create_thread (createthread.c:101)
+==2621407==    by 0x5B79A4A: pthread_create@@GLIBC_2.2.5 (pthread_create.c:819)
+==2621407==    by 0x4C42CFA: pthread_create_WRK (hg_intercepts.c:445)
+==2621407==    by 0x4C44209: pthread_create@* (hg_intercepts.c:478)
+==2621407==    by 0x401C77: thread_pool_new (threadpool.c:122)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407== Thread #4: pthread_cond_{signal,broadcast}: dubious: associated lock is not held by any thread
+==2621407==    at 0x4C4060B: pthread_cond_signal_WRK (hg_intercepts.c:1565)
+==2621407==    by 0x4C4467C: pthread_cond_signal@* (hg_intercepts.c:1586)
+==2621407==    by 0x403591: worker_function (threadpool.c:264)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407== 
+==2621407== ---Thread-Announcement------------------------------------------
+==2621407== 
+==2621407== Thread #5 was created
+==2621407==    at 0x5DCAE62: clone (clone.S:71)
+==2621407==    by 0x5B7808E: create_thread (createthread.c:101)
+==2621407==    by 0x5B79A4A: pthread_create@@GLIBC_2.2.5 (pthread_create.c:819)
+==2621407==    by 0x4C42CFA: pthread_create_WRK (hg_intercepts.c:445)
+==2621407==    by 0x4C44209: pthread_create@* (hg_intercepts.c:478)
+==2621407==    by 0x401C77: thread_pool_new (threadpool.c:122)
+==2621407==    by 0x4014B0: main (in /home/ugrads/majors/evan0110/CS3214/threadlab/tests/threadpool_test4)
+==2621407== 
+==2621407== ----------------------------------------------------------------
+==2621407== 
+==2621407== Thread #5: pthread_cond_{signal,broadcast}: dubious: associated lock is not held by any thread
+==2621407==    at 0x4C4060B: pthread_cond_signal_WRK (hg_intercepts.c:1565)
+==2621407==    by 0x4C4467C: pthread_cond_signal@* (hg_intercepts.c:1586)
+==2621407==    by 0x403591: worker_function (threadpool.c:264)
+==2621407==    by 0x4C42EF2: mythread_wrapper (hg_intercepts.c:406)
+==2621407==    by 0x5B791C9: start_thread (pthread_create.c:479)
+==2621407==    by 0x5DCAE72: clone (clone.S:95)
+==2621407== 
+==2621407== 
+==2621407== Use --history-level=approx or =none to gain increased speed, at
+==2621407== the cost of reduced accuracy of conflicting-access information
+==2621407== For lists of detected and suppressed errors, rerun with: -s
+==2621407== ERROR SUMMARY: 177 errors from 8 contexts (suppressed: 563 from 44)
